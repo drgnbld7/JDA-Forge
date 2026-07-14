@@ -60,6 +60,15 @@ public final class Log {
         if (file) FileLogger.logException(t);
     }
 
+    /**
+     * Always writes to the console (regardless of the configured logging target) and to the log file.
+     * For fatal startup problems the operator must see in the terminal — e.g. an invalid token.
+     */
+    public static void fatal(String msg) {
+        System.out.println(RED + "[ERROR] " + msg + RESET);
+        if (file) FileLogger.log("ERROR", msg);
+    }
+
     /** Forces a deep crash dump file with system metrics. */
     public static void dump(Thread thread, Throwable t, String reason) {
         CrashReporter.generateDump(thread, t, reason);

@@ -16,6 +16,9 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 /**
  * Opens the Discord gateway connection (a single {@link JDA}, or a {@link ShardManager} when
@@ -93,6 +96,7 @@ public final class BotEngine {
         if (sharded) {
             DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
             applyIntents(builder, intents);
+            applyMemberCaching(builder, intents);
             int total = settings.getInt("sharding.total-shards", -1);
             if (total > 0) builder.setShardsTotal(total);
             localSm = builder.build();
@@ -100,6 +104,7 @@ public final class BotEngine {
         } else {
             JDABuilder builder = JDABuilder.createDefault(token);
             applyIntents(builder, intents);
+            applyMemberCaching(builder, intents);
             localJda = builder.build().awaitReady();
             this.gatewayCore = localJda;
         }
@@ -152,6 +157,30 @@ public final class BotEngine {
             if (builder instanceof JDABuilder j) j.enableIntents(intent);
             else if (builder instanceof DefaultShardManagerBuilder s) s.enableIntents(intent);
         });
+    }
+
+    /**
+     * When the member/presence intents are enabled, turn on the caching JDA needs to actually make
+     * member and online-status data available (e.g. for the %member_count% / %online_count%
+     * placeholders). {@code createDefault} leaves member chunking and the online-status cache off.
+     */
+    private static void applyMemberCaching(Object builder, Config intents) {
+        boolean members = intents.getBoolean("guild-members", false);
+        boolean presences = intents.getBoolean("guild-presences", false);
+
+        if (builder instanceof JDABuilder j) {
+            if (members) {
+                j.setChunkingFilter(ChunkingFilter.ALL);
+                j.setMemberCachePolicy(MemberCachePolicy.ALL);
+            }
+            if (presences) j.enableCache(CacheFlag.ONLINE_STATUS);
+        } else if (builder instanceof DefaultShardManagerBuilder s) {
+            if (members) {
+                s.setChunkingFilter(ChunkingFilter.ALL);
+                s.setMemberCachePolicy(MemberCachePolicy.ALL);
+            }
+            if (presences) s.enableCache(CacheFlag.ONLINE_STATUS);
+        }
     }
 
     private static OnlineStatus parseStatus(String s) {

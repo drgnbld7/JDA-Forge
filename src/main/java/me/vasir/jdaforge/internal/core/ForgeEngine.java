@@ -64,14 +64,14 @@ public final class ForgeEngine {
             @SuppressWarnings("unchecked")
             Map<String, Object> settings = (Map<String, Object>) rawMap.get("settings");
             if (settings == null || settings.get("token") == null) {
-                Log.error("Missing 'settings' block or 'token' in jda-forge.yml.");
+                Log.fatal("Missing 'settings' block or 'token' in jda-forge.yml.");
                 isRunning.set(false);
                 return null;
             }
 
             String token = settings.get("token").toString().trim();
             if (Checks.isEmpty(token) || token.equals("YOUR_TOKEN_HERE")) {
-                Log.error("Missing or default Discord token in jda-forge.yml. Aborting.");
+                Log.fatal("Missing or default Discord token in jda-forge.yml. Aborting.");
                 isRunning.set(false);
                 return null;
             }
@@ -113,11 +113,30 @@ public final class ForgeEngine {
             return rawMap;
 
         } catch (Exception e) {
-            Log.error("Fatal error during startup:");
+            // A wrong/invalid token must always be visible in the console, even with logging: FILE.
+            if (isTokenError(e)) {
+                Log.fatal("Invalid Discord token - check 'settings.token' in jda-forge.yml.");
+            } else {
+                Log.fatal("Fatal error during startup: "
+                        + (e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage()));
+            }
             Log.error(e);
             stop();
             return null;
         }
+    }
+
+    /** True if the throwable chain looks like a Discord token / authentication failure. */
+    private static boolean isTokenError(Throwable e) {
+        for (Throwable t = e; t != null; t = t.getCause()) {
+            String name = t.getClass().getSimpleName().toLowerCase();
+            String msg = t.getMessage() == null ? "" : t.getMessage().toLowerCase();
+            if (name.contains("token") || msg.contains("token")
+                    || msg.contains("authentication") || msg.contains("4004")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void stop() {

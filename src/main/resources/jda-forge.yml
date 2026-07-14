@@ -1,0 +1,78 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                                                                             #
+#                       JDA-FORGE MAIN CONFIGURATION                          #
+#                                                                             #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Core identity and security settings of your bot application
+settings:
+  # The visible name of your application used in console logs
+  bot-name: "JDA-Forge-Bot"
+
+  # Your Discord Bot Token from the Developer Portal (Keep this secure!)
+  token: "YOUR_TOKEN_HERE"
+
+  # Initial online status. Options: ONLINE, DO_NOT_DISTURB, IDLE, INVISIBLE
+  status: "ONLINE"
+
+  # SYSTEM LOGGING PIPELINE DELIVERY TARGET
+  # Configure where framework and modular statements should be streamed.
+  # Options: "CONSOLE" (Terminal only), "FILE" (Daily rolling files), "BOTH" (Simultaneous delivery)
+  logging: "BOTH"
+
+  # When 'true', DEBUG-level logs from bundled libraries (JDA, HikariCP, JDBI) are shown.
+  debug-mode: false
+
+  # AUTOMATIC DATABASE PIPELINE ENGINE
+  # When set to 'true', the framework automatically deploys 'database.yml' and
+  # structural driver binaries (.jar) directly into the application root directory.
+  database: false
+
+  # SHARDING CONFIGURATION
+  # Enable sharding for bots deployed in a large number of servers (typically 2500+).
+  # If 'enabled' is false, the framework defaults to a single-connection standard JDA instance.
+  sharding:
+    enabled: false
+    # Number of shards to divide the bot into.
+    # Only relevant if 'enabled' is set to true.
+    total-shards: 1
+
+# AUTOMATIC STATUS ROTATOR (PRESENCE)
+presence:
+  update-interval-seconds: 60
+
+  activities:
+    # 🚀 EXAMPLE A: Watching custom tag display incorporating your design brackets and dots
+    - type: "WATCHING"
+      text: "%member_count% Members・〔%online_count% Online〕"
+
+    - type: "PLAYING"
+      text: "With your hearth"
+
+    - type: "STREAMING"
+      text: "Live Coding under %bot_ping% latency"
+      url: "https://twitch.tv/your_channel"
+
+    - type: "NONE"
+      text: "clear"
+
+# GATEWAY INTENTS
+# Set to 'true' to enable, 'false' to disable.
+# Note: Privileged intents (marked with *) require activation in Discord Dev Portal.
+intents:
+  message-content: false         # *Privileged
+  guild-members: false           # *Privileged
+  guild-presences: false         # *Privileged
+  guild-moderation: false
+  guild-webhooks: false
+  guild-invites: false
+  guild-voice-states: false
+  guild-messages: false
+  guild-message-reactions: false
+  guild-message-typing: false
+  direct-messages: false
+  direct-message-reactions: false
+  direct-message-typing: false
+  guild-scheduled-events: false
+  auto-moderation-configuration: false
+  auto-moderation-execution: false

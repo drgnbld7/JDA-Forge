@@ -1,0 +1,36 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                                                                             #
+#                         DATABASE CONFIGURATION                              #
+#                                                                             #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Basic Database Connectivity Profile
+# Defaults to SQLite for zero-configuration, instant runtime out of the box.
+driver: "org.sqlite.JDBC"
+url: "jdbc:sqlite:./database.db"
+username: ""
+password: ""
+
+# AUTOMATIC DATABASE BACKUP
+# When enabled, a compressed backup is written to the local backups/ folder on the interval below.
+# Works with any configured driver: SQLite and H2 use a native snapshot, every other database
+# (MySQL, MariaDB, PostgreSQL, ...) is exported as a logical SQL dump.
+auto-backup:
+  enabled: false
+  # Interval between automatic backups, in minutes (e.g. 240 = every 4 hours).
+  interval-minutes: 240
+
+# HIKARICP CONNECTION POOL TIMING & BOUNDS
+# Fine-tune these variables when scaling into remote MySQL/PostgreSQL nodes.
+pool:
+  minimum-idle: 5            # Minimum number of idle connections maintained in the pool
+  maximum-pool-size: 15       # Upper boundary limit for concurrent active database links
+  connection-timeout-ms: 30000 # Milliseconds to wait before throwing a connection error (30s)
+
+# PERFORMANCE & HIGH VELOCITY STATEMENT CACHING
+# Low-level driver tuning parameters engineered to speed up recurring module queries.
+performance:
+  cache-prep-stmts: true
+  prep-stmt-cache-size: 250
+  prep-stmt-cache-sql-limit: 2048
+  use-server-prep-stmts: true

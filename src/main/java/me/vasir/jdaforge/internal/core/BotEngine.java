@@ -87,8 +87,9 @@ public final class BotEngine {
         boolean sharded = settings.getBoolean("sharding.enabled", false);
         boolean debug = settings.getBoolean("debug-mode", false);
 
-        // In debug mode, forward DEBUG-level logs from bridged libraries (JDA, HikariCP, JDBI).
-        if (debug) LogAdapter.setThreshold("DEBUG");
+        // Bridged library logs (JDA, HikariCP, JDBI): show DEBUG+ in debug mode, otherwise only
+        // WARN+ so their routine INFO chatter stays out of the console.
+        LogAdapter.setThreshold(debug ? "DEBUG" : "WARN");
 
         JDA localJda = null;
         ShardManager localSm = null;

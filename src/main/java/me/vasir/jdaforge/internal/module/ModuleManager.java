@@ -62,7 +62,7 @@ public final class ModuleManager {
                 Log.error("Failed to enable module '" + module.name() + "': " + e.getMessage());
             }
         }
-        Log.done(enabled + " module(s) enabled.");
+        Log.info(enabled + " module(s) enabled.");
         syncSlashCommands(core);
     }
 
@@ -125,7 +125,7 @@ public final class ModuleManager {
         if (targetJda == null) return;
 
         targetJda.updateCommands().addCommands(allCommands).queue(
-                s -> Log.done("Synchronized " + allCommands.size() + " global slash commands."),
+                s -> Log.info("Synchronized " + allCommands.size() + " global slash commands."),
                 e -> Log.error("Failed to sync slash commands: " + e.getMessage())
         );
     }

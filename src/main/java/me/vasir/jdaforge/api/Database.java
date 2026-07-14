@@ -110,7 +110,6 @@ public final class Database {
         }
         if (INSTANCE.dataSource != null && !INSTANCE.dataSource.isClosed()) {
             INSTANCE.dataSource.close();
-            Log.warn("HikariCP connection pool closed.");
         }
         DriverLoader.unregisterSafely();
         if (INSTANCE.driverLoader != null) {

@@ -29,14 +29,21 @@ public final class ModuleManager {
     public static void loadModules() {
         INSTANCE.enabledState.clear();
         for (Map<String, Object> cfg : INSTANCE.loader.scan()) {
+            String name = String.valueOf(cfg.get("name"));
             try {
                 ModuleInfo info = ModuleInfo.from(cfg);
-                ForgeModule m = (ForgeModule) INSTANCE.loader.load(info.mainClass()).getDeclaredConstructor().newInstance();
+                ForgeModule m = (ForgeModule) INSTANCE.loader.load(info.mainClass())
+                        .getDeclaredConstructor().newInstance();
 
                 m.setInternalInfo(info);
                 INSTANCE.modules.put(info.name().toLowerCase(), m);
-            } catch (Exception e) {
-                Log.error("Module load failed: " + e.getMessage());
+            } catch (Throwable t) {
+                // Unwrap the reflective wrappers so the real failure is reported, not a null message.
+                Throwable cause = (t instanceof java.lang.reflect.InvocationTargetException
+                        || t instanceof ExceptionInInitializerError) && t.getCause() != null
+                        ? t.getCause() : t;
+                String detail = cause.getMessage() != null ? " - " + cause.getMessage() : "";
+                Log.error("Failed to load module '" + name + "': " + cause.getClass().getName() + detail);
             }
         }
     }

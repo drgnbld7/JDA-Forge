@@ -8,7 +8,6 @@ import me.vasir.jdaforge.api.Log;
 import me.vasir.jdaforge.api.Placeholder;
 import me.vasir.jdaforge.api.Bot;
 import me.vasir.jdaforge.api.Presence;
-import me.vasir.jdaforge.internal.logging.LogAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -86,10 +85,6 @@ public final class BotEngine {
         Config intents = config.section("intents");
         boolean sharded = settings.getBoolean("sharding.enabled", false);
         boolean debug = settings.getBoolean("debug-mode", false);
-
-        // Bridged library logs (JDA, HikariCP, JDBI): show DEBUG+ in debug mode, otherwise only
-        // WARN+ so their routine INFO chatter stays out of the console.
-        LogAdapter.setThreshold(debug ? "DEBUG" : "WARN");
 
         JDA localJda = null;
         ShardManager localSm = null;

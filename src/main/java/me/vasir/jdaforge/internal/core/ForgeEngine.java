@@ -14,6 +14,7 @@ import me.vasir.jdaforge.api.Log;
 import me.vasir.jdaforge.api.Config;
 import me.vasir.jdaforge.api.Database;
 import me.vasir.jdaforge.internal.module.ModuleManager;
+import me.vasir.jdaforge.internal.logging.LogAdapter;
 import me.vasir.jdaforge.util.Files;
 import me.vasir.jdaforge.util.Threads;
 import me.vasir.jdaforge.util.Checks;
@@ -81,6 +82,11 @@ public final class ForgeEngine {
                 Log.configure(loggingOpts.toString());
             }
 
+            // Set the bridged-library log level early — before the DB pool starts — so HikariCP's
+            // startup INFO chatter is hidden unless debug-mode is on.
+            boolean debug = Boolean.TRUE.equals(settings.get("debug-mode"));
+            LogAdapter.setThreshold(debug ? "DEBUG" : "WARN");
+
             databaseEnabled = Boolean.TRUE.equals(settings.get("database"));
         } catch (Exception e) {
             Log.error("Failed to process configuration: " + e.getMessage());
@@ -119,8 +125,8 @@ public final class ForgeEngine {
             } else {
                 Log.fatal("Fatal error during startup: "
                         + (e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage()));
+                Log.error(e);   // full stack trace to the log file for unexpected failures
             }
-            Log.error(e);
             stop();
             return null;
         }

@@ -33,17 +33,17 @@ Run the framework as a single jar and add features as independent <b>module</b> 
 
 ## 🚀 Running the bot
 
-1. Download **`jda-forge-1.1.0.jar`** from the [Releases](../../releases) page.
+1. Download **`jda-forge.jar`** from the [Releases](../../releases) page.
 2. Put it in an empty folder and run it once — it generates the default files:
    ```bash
-   java -jar jda-forge-1.1.0.jar
+   java -jar jda-forge.jar
    ```
 3. Open **`jda-forge.yml`**, set your bot `token` (and any intents/features you need), then start again.
 
 ### `start.bat` (Windows)
 ```bat
 @echo off
-java -Xms512M -Xmx2G -jar jda-forge-1.1.0.jar
+java -Xms512M -Xmx2G -jar jda-forge.jar
 pause
 ```
 
@@ -66,7 +66,7 @@ Add JDA-Forge as a **provided** dependency via [JitPack](https://jitpack.io). Th
     <dependency>
         <groupId>com.github.drgnbld7</groupId>
         <artifactId>JDA-Forge</artifactId>
-        <version>1.1.0</version>
+        <version>1.0</version>
         <scope>provided</scope>
     </dependency>
     <dependency>
@@ -90,7 +90,7 @@ dependencyResolutionManagement {
 
 // build.gradle
 dependencies {
-    compileOnly 'com.github.drgnbld7:JDA-Forge:1.1.0'
+    compileOnly 'com.github.drgnbld7:JDA-Forge:1.0'
     compileOnly 'net.dv8tion:JDA:5.3.0'
 }
 ```

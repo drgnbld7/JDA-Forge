@@ -8,19 +8,21 @@
 
 ## ✨ Features
 
-- **🧩 Module engine** — Drop compiled `.jar` modules into `/modules` and restart. Each module is a self-contained feature with its own config and lifecycle.
-- **🔗 Dependency-ordered loading** — Declare `depend:` in `module.yml`; the framework resolves a topological order so modules always boot after what they rely on.
-- **🔒 Clean, stable API** — Modules build against a small, focused surface (`api` + `util`); framework internals stay out of your way and can evolve without breaking your modules.
-- **🗄️ Dynamic JDBC drivers** — Out-of-the-box **SQLite, H2, MySQL, MariaDB, PostgreSQL**. Driver binaries are auto-deployed into `/drivers` on first run and loaded in an isolated classloader — the framework stays lightweight.
-- **⚡ Production-grade data layer** — [HikariCP](https://github.com/brettwooldridge/HikariCP) connection pooling + a fluent [JDBI 3](https://jdbi.org/) API for fast, boilerplate-free SQL.
-- **💾 Automatic backups** — Scheduled snapshots into `/backups` (native for SQLite/H2, portable SQL dump for everything else).
-- **🏷️ Placeholder system** — Built-in `%bot_ping%`, `%member_count%`, `%online_count%`, plus custom placeholders any module can register. Usable in presence text, embeds and more.
-- **📡 Cross-module event bus** — A tiny, type-safe pub/sub (`Event.subscribe` / `Event.fire`) so modules can talk to each other without hard dependencies.
-- **🔄 Live presence rotation** — Rotate status/activities on an interval, with placeholder substitution.
-- **♻️ Hot module management** — Reload and inspect modules at runtime through the `Modules` API.
-- **⚙️ Config-driven** — Everything (intents, presence, sharding, database, logging) is toggled from a single `jda-forge.yml`. Subsystems you don't enable cost nothing.
-- **🎨 Readable logging** — Soft ANSI-colored console output, daily rolling log files, and automatic crash dumps.
-- **🧵 Sharding ready** — Flip a flag to run under a `ShardManager` for large bots.
+| | Feature | |
+|---|---|---|
+| 🧩 | **Module engine** | Drop `.jar` modules into `/modules` and restart — each is self-contained. |
+| 🔗 | **Ordered loading** | Declare `depend:` in `module.yml`; modules boot in the right order. |
+| 🔒 | **Clean API** | Build against a small, stable surface (`api` + `util`); internals never leak. |
+| 🗄️ | **Dynamic drivers** | SQLite, H2, MySQL, MariaDB & PostgreSQL out of the box, auto-deployed. |
+| ⚡ | **Real data layer** | HikariCP pooling + fluent JDBI 3 for fast, boilerplate-free SQL. |
+| 💾 | **Auto backups** | Scheduled snapshots to `/backups` (native for SQLite/H2, SQL dump otherwise). |
+| 🏷️ | **Placeholders** | Built-ins like `%bot_ping%`, `%member_count%`, plus your own custom tags. |
+| 📡 | **Event bus** | Tiny, type-safe pub/sub so modules talk without hard dependencies. |
+| 🔄 | **Presence rotation** | Cycle status & activities on an interval, with placeholder support. |
+| ♻️ | **Hot reload** | Reload and inspect modules at runtime via the `Modules` API. |
+| ⚙️ | **Config-driven** | Toggle intents, presence, sharding, database & logging from one file. |
+| 🎨 | **Clean logging** | Soft ANSI colors, daily log files, and automatic crash dumps. |
+| 🧵 | **Sharding ready** | Flip a flag to run under a `ShardManager` for large bots. |
 
 ---
 
@@ -185,12 +187,12 @@ When `database: true`, a `database.yml` is generated for driver, JDBC URL, Hikar
 
 ## 📚 Documentation
 
-Full guides live in the [Wiki](../../wiki):
+Full guides live in the [Wiki](https://github.com/drgnbld7/JDA-Forge/wiki):
 
-- **Startup Pipeline & Lifecycle** — how the framework boots and shuts down.
-- **How to Create a Module** — `module.yml`, the `ForgeModule` API, commands, config and events.
-- **Configuration Reference** — every `jda-forge.yml` / `database.yml` option.
-- **Database Engine & Drivers** — dynamic drivers, HikariCP, JDBI and backups.
+- **[Startup Pipeline & Lifecycle](https://github.com/drgnbld7/JDA-Forge/wiki/Startup-Pipeline-&-Lifecycle)** — how the framework boots and shuts down.
+- **[How to Create a Module](https://github.com/drgnbld7/JDA-Forge/wiki/How-to-Create-a-Module)** — `module.yml`, the `ForgeModule` API, commands, config and events.
+- **[Configuration Reference](https://github.com/drgnbld7/JDA-Forge/wiki/Configuration-Reference)** — every `jda-forge.yml` / `database.yml` option.
+- **[Database Engine & Drivers](https://github.com/drgnbld7/JDA-Forge/wiki/Database-Engine-&-Drivers)** — dynamic drivers, HikariCP, JDBI and backups.
 
 ---
 

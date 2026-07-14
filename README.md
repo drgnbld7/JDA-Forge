@@ -1,8 +1,13 @@
-# JDA-Forge
+<h1 align="center">JDA-Forge</h1>
 
-**JDA-Forge** is a lightweight, high-performance **module engine** for Discord bots built on [JDA 5](https://github.com/discord-jda/JDA). You run the framework as a single jar, and add features as independent **module** jars — no need to touch the core.
+<p align="center">
+A lightweight <b>module engine</b> for Discord bots built on <a href="https://github.com/discord-jda/JDA">JDA 5</a>.<br/>
+Run the framework as a single jar and add features as independent <b>module</b> jars — no core changes.
+</p>
 
-> Java 21 · JDA 5.3.0
+<p align="center">
+<code>Java 21</code> &nbsp;•&nbsp; <code>JDA 5.3.0</code> &nbsp;•&nbsp; <code>MIT License</code>
+</p>
 
 ---
 
@@ -136,6 +141,12 @@ public class MyModule extends ForgeModule {
 ```
 
 Build your module and drop the jar into the framework's `/modules` folder. Slash commands from all modules are synced globally after enable.
+
+---
+
+## ➕ Official extension
+
+- **[JDA-Forge-Plus](https://github.com/drgnbld7/JDA-Forge-Plus)** — a ready-made feature pack: admin utility commands, database backups delivered to Discord, backup & log retention, and ops placeholders. Just drop it into `modules/`.
 
 ---
 
